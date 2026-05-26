@@ -1,0 +1,25 @@
+[build]
+  # Build the entire monorepo using pnpm
+  command = "pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/codez run build"
+  # Set the publish directory where Vite compiles the production frontend assets
+  publish = "frontend/dist/public"
+  # Tell Netlify where the Netlify Functions are located
+  functions = "netlify/functions"
+
+[build.environment]
+  # Force Netlify to use pnpm version 9+ even if no lockfile is present
+  NETLIFY_USE_PNPM = "true"
+  PNPM_FLAGS = "--no-frozen-lockfile"
+  NODE_VERSION = "22.22.3"
+
+# Route API requests to our Netlify Serverless Function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Fallback all other client-side routes to index.html (Standard SPA routing)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
