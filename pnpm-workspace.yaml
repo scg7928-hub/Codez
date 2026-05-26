@@ -4,7 +4,6 @@ packages:
   - lib/db
   - lib/api-spec
   - lib/api-zod
-  - lib/api-client
   - lib/api-client-react
   - api
 
