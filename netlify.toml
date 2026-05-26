@@ -1,5 +1,5 @@
 [build]
-  command = "npm i -g pnpm && pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/codez run build"
+  command = "corepack prepare pnpm@9 --activate && pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/codez run build"
   publish = "frontend/dist/public"
   functions = "netlify/functions"
 
