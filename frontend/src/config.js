@@ -1,2 +1,2 @@
-export const DISCORD_URL = "https://discord.gg/your-invite-here";
-export const OWNER_PASSWORD = "owner123";
+export const DISCORD_URL = "https://discord.gg/codez";
+export const OWNER_PASSWORD = "y2rg@agent.js";
