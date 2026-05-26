@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/codez run build",
+  "buildCommand": "npm i -g pnpm@9 && pnpm install && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/codez run build",
   "outputDirectory": "frontend/dist/public",
   "rewrites": [
     {
