@@ -1,0 +1,530 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: CodeZ Development API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: codes
+    description: Code management
+  - name: staff
+    description: Staff management
+  - name: tasks
+    description: Task management
+  - name: leaves
+    description: Leave request management
+  - name: stats
+    description: Statistics
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /codes:
+    get:
+      operationId: listCodes
+      tags: [codes]
+      summary: List all codes
+      responses:
+        "200":
+          description: List of codes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Code"
+    post:
+      operationId: createCode
+      tags: [codes]
+      summary: Create a code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CodeInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Code"
+
+  /codes/{id}:
+    delete:
+      operationId: deleteCode
+      tags: [codes]
+      summary: Delete a code
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /staff:
+    get:
+      operationId: listStaff
+      tags: [staff]
+      summary: List all staff
+      responses:
+        "200":
+          description: List of staff
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StaffMember"
+    post:
+      operationId: createStaff
+      tags: [staff]
+      summary: Create a staff member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StaffInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaffMember"
+
+  /staff/{id}:
+    delete:
+      operationId: deleteStaff
+      tags: [staff]
+      summary: Delete a staff member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+    patch:
+      operationId: updateStaff
+      tags: [staff]
+      summary: Update a staff member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StaffUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaffMember"
+
+  /staff/login:
+    post:
+      operationId: staffLogin
+      tags: [staff]
+      summary: Staff login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Login result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaffMember"
+
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List all tasks
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /tasks/{id}:
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update task (complete, demote, etc.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    delete:
+      operationId: deleteTask
+      tags: [tasks]
+      summary: Delete a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /leaves:
+    get:
+      operationId: listLeaves
+      tags: [leaves]
+      summary: List all leave requests
+      responses:
+        "200":
+          description: List of leave requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaveRequest"
+    post:
+      operationId: createLeave
+      tags: [leaves]
+      summary: Apply for leave
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveRequest"
+
+  /leaves/{id}:
+    patch:
+      operationId: updateLeave
+      tags: [leaves]
+      summary: Approve or deny leave
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveRequest"
+
+  /stats:
+    get:
+      operationId: getStats
+      tags: [stats]
+      summary: Get overall stats
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    OkResponse:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+
+    Code:
+      type: object
+      required: [id, type, title, createdAt]
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [free, paid]
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        code:
+          type: ["string", "null"]
+        link:
+          type: ["string", "null"]
+        emoji:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    CodeInput:
+      type: object
+      required: [type, title]
+      properties:
+        type:
+          type: string
+          enum: [free, paid]
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        link:
+          type: string
+        emoji:
+          type: string
+
+    StaffMember:
+      type: object
+      required: [id, username, role, tasksCompleted, tasksFailed, createdAt]
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        role:
+          type: string
+        tasksCompleted:
+          type: integer
+        tasksFailed:
+          type: integer
+        createdAt:
+          type: string
+
+    StaffInput:
+      type: object
+      required: [username, password, role]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+
+    StaffUpdate:
+      type: object
+      properties:
+        role:
+          type: string
+        tasksCompleted:
+          type: integer
+        tasksFailed:
+          type: integer
+
+    LoginInput:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    Task:
+      type: object
+      required: [id, staffId, staffUsername, title, description, status, createdAt]
+      properties:
+        id:
+          type: integer
+        staffId:
+          type: integer
+        staffUsername:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        consequence:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [pending, done, failed]
+        createdAt:
+          type: string
+        doneAt:
+          type: ["string", "null"]
+
+    TaskInput:
+      type: object
+      required: [staffId, title, description]
+      properties:
+        staffId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        consequence:
+          type: string
+
+    TaskUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, done, failed]
+
+    LeaveRequest:
+      type: object
+      required: [id, staffId, staffUsername, reason, status, createdAt]
+      properties:
+        id:
+          type: integer
+        staffId:
+          type: integer
+        staffUsername:
+          type: string
+        reason:
+          type: string
+        status:
+          type: string
+          enum: [pending, approved, denied]
+        createdAt:
+          type: string
+        reviewedAt:
+          type: ["string", "null"]
+
+    LeaveInput:
+      type: object
+      required: [staffId, reason]
+      properties:
+        staffId:
+          type: integer
+        reason:
+          type: string
+
+    LeaveUpdate:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [approved, denied]
+
+    Stats:
+      type: object
+      required: [totalCodes, freeCodes, paidCodes, totalStaff, totalTasks, completedTasks, pendingTasks, failedTasks, pendingLeaves]
+      properties:
+        totalCodes:
+          type: integer
+        freeCodes:
+          type: integer
+        paidCodes:
+          type: integer
+        totalStaff:
+          type: integer
+        totalTasks:
+          type: integer
+        completedTasks:
+          type: integer
+        pendingTasks:
+          type: integer
+        failedTasks:
+          type: integer
+        pendingLeaves:
+          type: integer

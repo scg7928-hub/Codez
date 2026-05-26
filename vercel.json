@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm install && pnpm --filter @workspace/codez run build",
+  "outputDirectory": "frontend/dist/public",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index"
+    }
+  ],
+  "env": {
+    "BASE_PATH": "/",
+    "NODE_ENV": "production"
+  }
+}

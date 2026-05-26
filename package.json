@@ -1,0 +1,13 @@
+{
+  "name": "codez-development",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @workspace/codez run dev",
+    "build": "pnpm --filter @workspace/codez run build"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  }
+}
